@@ -1,0 +1,61 @@
+body {
+    background: #d4e4ef;
+    background: -moz-linear-gradient(left, #d4e4ef 0%, #ffffff 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, #d4e4ef), color-stop(100%, #ffffff));
+    background: -webkit-linear-gradient(left, #d4e4ef 0%, #ffffff 100%);
+    background: -o-linear-gradient(left, #d4e4ef 0%, #ffffff 100%);
+    background: -ms-linear-gradient(left, #d4e4ef 0%, #ffffff 100%);
+    background: linear-gradient(to right, #d4e4ef 0%, #ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#ffffff', GradientType=1 );
+}
+
+#header{
+    height: 90px;
+    background-color: #fe4c28;
+
+}
+
+#calc-container{
+    background-color: #c6d0c5;
+    height: 380px;
+    width: 320px;
+    margin: 30px auto 0 auto;
+    border-radius: 2em;
+}
+
+
+#display{
+    background-color: white;
+    width: 320px;
+    height: 90px;
+    margin: 40px auto 0 auto;
+    padding-top: 20px;
+    border-top-left-radius: 2em;
+    border-top-right-radius: 2em;
+}
+
+#quacklator{
+    margin: 0 auto;
+    padding-top: 15px;
+    padding-bottom: 30px;
+    border-bottom-left-radius: 2em;
+    border-bottom-right-radius: 2em;
+}
+
+#values{
+    font-size: 2em;
+}
+
+a {
+    margin: 5px;
+    width: 2.6vw;
+    height: 2.6vw;
+}
+
+.btn {
+    width: 50px;
+    height: 55px;
+    padding: 10px;
+    font-size: 18px;
+}
+
