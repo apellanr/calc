@@ -3,45 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta description="calculator v0.1" author="Ryan Apellanes">
-    <title>Calculator v0.1</title>
+    <title>Calculator v0.5</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script src="calculator.js"></script>
 </head>
 <body>
 <div id="calc-container">
-    <div id="display">
-        <span id="values">0</span>
+    <div class="displayArea">
+        <input type="text" class="result" value="0">
     </div>
+    <!--<div id="display">-->
+        <!--<span id="values">0</span>-->
+    <!--</div>-->
     <div id="quacklator">
-        <a class="btn btn-default" id="sqrt">&radic;</a>
-        <a class="btn btn-info" id="7">7</a>
-        <a class="btn btn-info" id="8">8</a>
-        <a class="btn btn-info" id="9">9</a>
-        <a class="btn btn-default" id="/">&divide;</a>
+        <a class="btn btn-default operator" id="sqrt">&radic;</a>
+        <a class="btn btn-info number" id="7">7</a>
+        <a class="btn btn-info number" id="8">8</a>
+        <a class="btn btn-info number" id="9">9</a>
+        <a class="btn btn-default operator" id="/">&divide;</a>
         <br/>
-        <a class="btn btn-default" id="">&percnt;</a>
-        <a class="btn btn-info" id="4">4</a>
-        <a class="btn btn-info" id="5">5</a>
-        <a class="btn btn-info" id="6">6</a>
-        <a class="btn btn-default" id="*">&times;</a>
+        <a class="btn btn-default" id="%">%</a>
+        <a class="btn btn-info number" id="4">4</a>
+        <a class="btn btn-info number" id="5">5</a>
+        <a class="btn btn-info number" id="6">6</a>
+        <a class="btn btn-default operand" id="*">&times;</a>
         <br/>
-        <a class="btn btn-danger" id="deleteAll">CE</a>
-        <a class="btn btn-info" id="1">1</a>
-        <a class="btn btn-info" id="2">2</a>
-        <a class="btn btn-info" id="3">3</a>
-        <a class="btn btn-default" id="-">&minus;</a>
+        <a class="btn btn-danger clear_everything">CE</a>
+        <a class="btn btn-info number" id="1">1</a>
+        <a class="btn btn-info number" id="2">2</a>
+        <a class="btn btn-info number" id="3">3</a>
+        <a class="btn btn-default operand" id="-">-</a>
         <br />
-        <a class="btn btn-danger" id="clear">C</a>
-        <a class="btn btn-info" id="0">0</a>
-        <a class="btn btn-default" id=".">&period;</a>
-        <a class="btn btn-default" id="total">&equals;</a>
-        <a class="btn btn-default" id="+">&plus;</a>
+        <a class="btn btn-danger clear">C</a>
+        <a class="btn btn-info number" id="0">0</a>
+        <a class="btn btn-default decimal" id=".">.</a>
+        <a class="btn btn-default equals">=</a>
+        <a class="btn btn-default operator" id="+">+</a>
     </div>
-
-
-<div id="number2">
-
 </div>
+
+<div id="containerTwo">
+
 </div>
 </body>
 </html>
