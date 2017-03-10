@@ -27,22 +27,33 @@ body{
     height: 380px;
     width: 320px;
     margin: 30px auto 0 auto;
-    border-radius: 2em;
+    /*border-radius: 2em;*/
 }
 
 
-#display{
+#display-area{
     background-color: white;
     width: 320px;
     height: 90px;
     margin: 40px auto 0 auto;
-    padding-top: 20px;
-    border-top-left-radius: 2em;
-    border-top-right-radius: 2em;
+    padding: 33px;
+    /* border-top-left-radius: 2em; */
+    /* border-top-right-radius: 2em; */
+    font-size: 2em;
+    text-align: right;
+    font-family: 'Roboto', sans-serif;
+}
+
+input[type="text"]{
+    text-align: right;
+    height: 53px;
+    width: 100%;
+    border: none;
+    font-size: 2em;
 }
 
 #quacklator{
-    margin: 0 auto;
+    /*margin-top: 20px;*/
     padding-top: 15px;
     padding-bottom: 30px;
     border-bottom-left-radius: 2em;
@@ -62,7 +73,9 @@ a {
 .btn {
     width: 50px;
     height: 55px;
-    padding: 10px;
+    padding: 10x;
     font-size: 18px;
+    margin-top: 5px;
+
 }
 
