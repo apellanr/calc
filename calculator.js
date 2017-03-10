@@ -73,6 +73,7 @@ function arithmetic(num1, num2, op) {
             return num1 - num2;
             break;
         case '/':
+        case '&divide;':
             return num1 / num2;
             break;
         case '*':
