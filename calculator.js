@@ -6,7 +6,7 @@ $(document).ready(function () { //when page loads run jQuery
 //*** GLOBAL VARS ***//
 var inputArray = [""];
 // var index = 0; // index position start is 0
-// var operatorVal = ['*', '/', '+', '-'];
+var operatorVal = ['*', '/', '+', '-'];
 var calcDisplay; //for display input
 
 function clickHandlers() {
@@ -39,9 +39,9 @@ function numbersClicked() {
 function operatorClicked() {
     var smoothOperator = $(this).text();
     console.log('operator button click: ', smoothOperator);
-    // if(inputArray.length === 3) {
-    //
-    // }
+    if(inputArray.length === 3) {
+        equalSignClick();
+    }
     var valueLastIndex = inputArray.length - 1;
     if (!isNaN(inputArray[valueLastIndex])) { //check if last index is a number
         inputArray.push(smoothOperator);
@@ -57,12 +57,13 @@ function operatorClicked() {
 function arithmetic(num1, num2, op) {
     num1 = parseInt(num1); //parse string and return floating point num
     num2 = parseInt(num2); //same method for num2
-    // op = arrayForInput[1];
+    op = inputArray[1];
 
     // divide by zero
     if (num2 === 0 && op === "/") {
-        console.log("Input Error");
+        answer = ("Input Error");
         $('#display-area').text(answer);
+        displayInput();
         return;
     }
     switch (op) {
@@ -73,7 +74,7 @@ function arithmetic(num1, num2, op) {
             return num1 - num2;
             break;
         case '/':
-        case '&divide;':
+        case '÷':
             return num1 / num2;
             break;
         case '*':
@@ -85,7 +86,7 @@ function arithmetic(num1, num2, op) {
             return Math.sqrt(num1);
             break;
         case '^':
-            return Math.pow(num1);
+            return Math.pow(num2);
             break;
     }
     displayInput();
@@ -100,9 +101,9 @@ function equalSignClick() {
     if (inputArray.length < 3) { //need to work on this code
         console.log("need more for math");
     }
-    if (inputArray.length >= 3) {
-        console.log(inputArray);
-    }
+    // if (inputArray.length >= 3) {
+    //     console.log(inputArray);
+    // }
     var num1 = inputArray[0];
     var num2 = inputArray[2];
     var op = inputArray[1];
@@ -114,7 +115,7 @@ function equalSignClick() {
 
 // DISPLAY VALUES
 function displayInput() {
-    calcDisplay = inputArray.join(''); //will join indexes in array into string
+    var calcDisplay = inputArray.join(''); //will join indexes in array into string
     $('#display-area').text(calcDisplay); // target display area and will emit joined str into calc area
 }
 
