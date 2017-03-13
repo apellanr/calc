@@ -5,15 +5,18 @@ $(document).ready(function () { //when page loads run jQuery
 
 //*** GLOBAL VARS ***//
 var inputArray = [""];
-// var index = 0; // index position start is 0
+var decimalUsed = false;
 var operatorVal = ['*', '/', '+', '-'];
-var calcDisplay; //for display input
+var index = 0; // index position start is 0
+// var calcDisplay; //for display input
 
 function clickHandlers() {
     $('.number').click(numbersClicked);
     $('.operator').click(operatorClicked);
     $('.equals').click(equalSignClick);
-    $('.clear_everything').click(clearEntry);
+    $('.decimal').click(decimalClick);
+    // $('.clear_everything').click(clearEntryClicked);
+    $('.clear').click(clearClicked);
 }
 
 // WHEN NUMBER BUTTONS CLICKED
@@ -39,7 +42,7 @@ function numbersClicked() {
 function operatorClicked() {
     var smoothOperator = $(this).text();
     console.log('operator button click: ', smoothOperator);
-    if(inputArray.length === 3) {
+    if (inputArray.length === 3) {
         equalSignClick();
     }
     var valueLastIndex = inputArray.length - 1;
@@ -50,22 +53,39 @@ function operatorClicked() {
         inputArray[valueLastIndex] = smoothOperator;
     }
     displayInput();
+    decimalUsed = false;
 }
 
+// DECIMAL CLICK
+function decimalClick() {
+    console.log("decimal clicked");
+    if (decimalUsed === false) {
+        if (isNaN(inputArray[inputArray.length - 1])) {
+            inputArray.push(".");
+            decimalUsed = true;
+            return;
+        } else {
+            inputArray[inputArray.length - 1] += (".");
+            decimalUsed = true;
+        }
+        displayInput();
+    }
+}
 
 // BASIC MATH FUNCTIONS
 function arithmetic(num1, num2, op) {
-    num1 = parseInt(num1); //parse string and return floating point num
-    num2 = parseInt(num2); //same method for num2
+    var answer = "";
+    num1 = parseFloat(num1); //parse string and return floating point num
+    num2 = parseFloat(num2); //same method for num2
     op = inputArray[1];
 
     // divide by zero
-    if (num2 === 0 && op === "/") {
-        answer = ("Input Error");
-        $('#display-area').text(answer);
-        displayInput();
-        return;
-    }
+    // if (num2 === 0 && op === "÷") {
+    //     answer = ("Error");
+    //     $('#display-area').text(answer);
+    //     displayInput();
+    //     return;
+    // }
     switch (op) {
         case '+':
             return num1 + num2;
@@ -75,7 +95,15 @@ function arithmetic(num1, num2, op) {
             break;
         case '/':
         case '÷':
-            return num1 / num2;
+            if (num2 != "0") {
+                return num1 / num2;
+            }
+            if (num2 === 0) {
+                answer = "Error";
+                return answer;
+                $('#display-area').text(answer);
+            }
+            return;
             break;
         case '*':
         case 'X':
@@ -86,7 +114,7 @@ function arithmetic(num1, num2, op) {
             return Math.sqrt(num1);
             break;
         case '^':
-            return Math.pow(num2);
+            return Math.pow(num1, num2);
             break;
     }
     displayInput();
@@ -95,7 +123,7 @@ function arithmetic(num1, num2, op) {
 // TOTAL || EQUALS
 function equalSignClick() {
     console.log("here comes some values");
-    if (inputArray === 2) { //takes care of operator repeat
+    if (inputArray.length === 2) { //takes care of operator repeat
         inputArray[2] === inputArray[0];
     }
     if (inputArray.length < 3) { //need to work on this code
@@ -108,7 +136,7 @@ function equalSignClick() {
     var num2 = inputArray[2];
     var op = inputArray[1];
     var result = arithmetic(num1, num2, op);
-    inputArray.splice(0,3, result);
+    inputArray.splice(0, 3, result);
     displayInput();
 }
 
@@ -120,11 +148,21 @@ function displayInput() {
 }
 
 // CLEAR EVERYTHING
-function clearEntry() {
-    console.log("you cleared everything");
+// function clearEntryClicked() {
+//     var currentEntry = inputArray[index];
+//     inputArray[inputArray.length - 1].pop();
+//     console.log('clear entry pressed: ', removeLastIndex);
+//     displayInput();
+// }
+
+//CLEAR
+function clearClicked() {
+    console.log("clear button pressed");
     $('#display-area').text('0');
     inputArray = [""];
-    // index = 0; //resets index back to 0 on clear entry button click
-    // console.log('clean everything: ', arrayForInput + 'index #: ', index);
+    decimalUsed = false;
+// index = 0; //resets index back to 0 on clear entry button click
+// console.log('clean everything: ', arrayForInput + 'index #: ', index);
     displayInput();
 }
+
