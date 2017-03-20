@@ -1,9 +1,11 @@
-$(document).ready(function () { //when page loads run jQuery
+//when page loads run jQuery; call click handlers and do math function
+$(document).ready(function () {
     clickHandlers();
     arithmetic();
 });
 
 //*** GLOBAL VARS ***//
+
 var inputArray = [""];
 var decimalUsed = false;
 var operatorVal = ['*', '/', '+', '-'];
@@ -122,22 +124,26 @@ function arithmetic(num1, num2, op) {
 
 // TOTAL || EQUALS
 function equalSignClick() {
-    console.log("here comes some values");
-    if (inputArray.length === 2) { //takes care of operator repeat
-        inputArray[2] === inputArray[0];
-    }
-    if (inputArray.length < 3) { //need to work on this code
-        console.log("need more for math");
-    }
+    // LFZ START
+    //conditional statement to take care of operation repeat in global array
+
+    // separate conditional for less than three indexs in global array
+
+
+    // third conditional statement to take care of more than 3 operands
     // if (inputArray.length >= 3) {
     //     console.log(inputArray);
     // }
-    var num1 = inputArray[0];
-    var num2 = inputArray[2];
-    var op = inputArray[1];
-    var result = arithmetic(num1, num2, op);
-    inputArray.splice(0, 3, result);
-    displayInput();
+
+    // var declaration/assignments representing position in indexes
+
+    // var declared for total assigned to do math function taking in three parameters
+
+    // splice method used on global array with total as the third param
+
+    // call display value function
+
+    // LFZ FINISH
 }
 
 
@@ -147,7 +153,7 @@ function displayInput() {
     $('#display-area').text(calcDisplay); // target display area and will emit joined str into calc area
 }
 
-// CLEAR EVERYTHING
+// CLEAR EVERYTHING (dont mind these)
 // function clearEntryClicked() {
 //     var currentEntry = inputArray[index];
 //     inputArray[inputArray.length - 1].pop();
@@ -157,12 +163,18 @@ function displayInput() {
 
 //CLEAR
 function clearClicked() {
-    console.log("clear button pressed");
-    $('#display-area').text('0');
-    inputArray = [""];
-    decimalUsed = false;
-// index = 0; //resets index back to 0 on clear entry button click
-// console.log('clean everything: ', arrayForInput + 'index #: ', index);
-    displayInput();
+    // LFZ START
+
+    // when C clicked, target display area and set text back to its initial state
+
+    // global variable should be cleared as well
+
+    // global decimal var back to initial state
+
+    // call display function
+
+    // LFZ FINISH
 }
 
+// index = 0; //resets index back to 0 on clear entry button click
+// console.log('clean everything: ', arrayForInput + 'index #: ', index);
