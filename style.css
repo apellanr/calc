@@ -28,7 +28,7 @@ body {
     padding: 30px;
     font-size: 2em;
     text-align: right;
-    font-family: calcFont, "Lucida Console", Monaco, monospace;
+    font-family: calcFont, 'Roboto', sans-serif, "Lucida Console", Monaco, monospace;
 }
 
 input[type="text"]{
