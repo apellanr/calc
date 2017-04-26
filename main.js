@@ -9,11 +9,16 @@ function newCalculation() {
 }
 
 function Calculator() {
-    this.currentInput = [''];
+    var self = this;
+    this.inputArray = [''];
+    this.firstOperand = null;
+    this.lastOperand = null;
     this.decimalUsed = false;
+    this.operator = ['+', '-', '*', '/'];
     this.displayDiv = null;
     this.init = function() {
         this.number = $(".number");
+        console.log("init number pressed: ", this);
         this.operator = $(".operator");
         this.decimal = $(".decimal");
         this.equals = $(".equals");
@@ -24,11 +29,21 @@ function Calculator() {
     };
 
     this.eventHandlers = function() {
-        console.log("event happening!!!");
-        this.number.on('click', )
+        // .bind changes context of this manually
+        this.number.on('click', this.numberClicked);
     };
 
-    this.displayInput = function(value) {
-        this.displayDiv.text(value);
+    // when number was being pressed was receiving an error of 'text' undefined
+    // this was referring to the constructor object rather than the button
+    this.numberClicked = function() {
+        console.log("number has been clicked");
+        this.currentNumber = this.number.text();
+        console.log(this.currentNumber);
     };
+
+    this.displayInput = function() {
+        // this.displayDiv.text();
+    };
+
+
 }
