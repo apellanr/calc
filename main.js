@@ -42,7 +42,9 @@ function displayValues() {
 // **** CALCULATE INPUTS **** //
 function calculateValues(num1, num2, operator) {
     var firstIndex = parseFloat(num1);
-    var lastIndex
+    var lastIndex = parseFloat(num2);
+
+
 }
 
 // **** EQUAL SIGN HANDLER **** //
