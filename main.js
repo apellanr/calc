@@ -19,7 +19,6 @@ function applyClickHandlers() {
 
 // --------------- HANDLE NUMBER CLICK --------------- //
 function numberClicked() {
-    console.log('number clicked');
     var numberValue = $(this).text();
     // inputArray.push(numberValue);
     if(!isNaN(inputArray[inputArray.length - 1])) {
@@ -27,13 +26,14 @@ function numberClicked() {
     } else {
         inputArray.push(numberValue);
     }
+    console.log(inputArray);
     displayValues();
 }
 
 // --------------- HANDLE OPERATOR CLICK --------------- //
 function operatorClicked() {
-    console.log('operator clicked');
     inputArray.push($(this).text());
+    console.log(inputArray);
     displayValues();
 }
 
