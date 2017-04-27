@@ -18,11 +18,14 @@ function applyClickHandlers() {
 }
 
 // --------------- HANDLE NUMBER CLICK --------------- //
-function numberClicked(number) {
+function numberClicked() {
     console.log('number clicked');
-    inputArray.push($(this).text());
-    if(typeof inputArray[0] === "number") {
-        inputArray[inputArray[0].length] += number;
+    var numberValue = $(this).text();
+    // inputArray.push(numberValue);
+    if(!isNaN(inputArray[inputArray.length - 1])) {
+        inputArray[inputArray.length - 1] += numberValue;
+    } else {
+        inputArray.push(numberValue);
     }
     displayValues();
 }
@@ -47,21 +50,46 @@ function displayValues() {
 
 // --------------- ORDER OF OPERATIONS [PEMDAS] --------------- //
 /*
- order of associativity : multiply > divide > add > subtract
- trying to stray away from using a switch statement. will try to use this function to perform solving calculations
- notes: loop through array and check to see if operator is found
- if found, target character to the left of the operator then target character to the right of the operator
- keep that value and replace the operator position in array - return to baseline
+ - order of associativity : multiply > divide > add > subtract
+ - trying to stray away from using a switch statement. will try to use this function to perform solving calculations
+ - notes: loop through array and check to see if operator is found
+ - if found, target character to the left of the operator then target character to the right of the operator
+ - keep that value and replace the operator position in array - return to baseline
  */
-function orderOfOperations() {
-
+function orderOfOperations(values) {
+    for(var i = 1; i < values.length; i+=2) {
+        if(values[i] === "*") {
+            var new_result = parseFloat(values[i-1]) * parseFloat(values[i + 1]);
+            values.splice(i-1,3,new_result);
+            i -= 2;
+        }
+        if(values[i] === "÷") {
+            new_result = parseFloat(values[i-1]) / parseFloat(values[i+1]);
+            values.splice(i-1,3,new_result);
+            i -= 2;
+        }
+    }
+    for(var i = 1; i < values.length; i+=2) {
+        if (values[i] === '+') {
+            new_result = parseFloat(values[i-1]) + parseFloat(values[i + 1]);
+            values.splice(i-1,3,new_result);
+            i -= 2;
+        }
+        if(values[i] === "-") {
+            new_result = parseFloat(values[i-1]) - parseFloat(values[i+1]);
+            values.splice(i-1,3,new_result);
+            i -= 2;
+        }
+    }
+    return new_result;
 }
 
 
 // --------------- EQUAL SIGN HANDLER --------------- //
 function equalSignClick() {
     console.log('equal sign clicked');
-
+    orderOfOperations(inputArray);
+    displayValues();
 }
 
 // --------------- CLEAR BUTTON OBJ --------------- //
