@@ -108,19 +108,3 @@ var clearObj = {
         displayValues();
     }
 };
-
-// --------------- CLEAR BUTTONS --------------- //
-// function clearLastEntry() {
-//     console.log('backspace clicked. removing last input');
-//     if(inputArray[inputArray.length - 1] !== undefined) { // checks to see if there is a value in array
-//         inputArray.pop();
-//     }
-//     displayValues();
-// }
-//
-// function deleteAll() {
-//     console.log('CE button pressed');
-//     inputArray = [];
-//     decimal = false;
-//     displayValues();
-// }
