@@ -63,9 +63,15 @@ function orderOfOperations(values) {
             i -= 2;
         }
         if(values[i] === "÷") {
-            new_result = parseFloat(values[i-1]) / parseFloat(values[i+1]);
-            values.splice(i-1,3,new_result);
-            i -= 2;
+            if(parseFloat(values[i + 1]) !== 0) {
+                new_result = parseFloat(values[i - 1]) / parseFloat(values[i + 1]);
+                values.splice(i - 1, 3, new_result);
+                i -= 2;
+            }
+            else {
+                $("#display-area").text("Error");
+                return new_result;
+            }
         }
     }
     for(var i = 1; i < values.length; i+=2) {
