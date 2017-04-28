@@ -4,8 +4,6 @@ $(document).ready(function(){
 
 var inputArray = [];
 var decimal = false;
-var operators = ['+', '-', 'x', '/'];
-
 
 // --------------- CLICK HANDLER FUNCTION --------------- //
 function applyClickHandlers() {
@@ -82,7 +80,8 @@ function orderOfOperations(values) {
             i -= 2;
         }
     }
-    return new_result;
+    var toFixed = new_result.toFixed(2);
+    return toFixed;
 }
 
 
