@@ -9,6 +9,7 @@ var operators = ['+', '-', 'x', '/'];
 
 // --------------- CLICK HANDLER FUNCTION --------------- //
 function applyClickHandlers() {
+    $('#equalButton').keypress(validateKeypress);
     $(".number").on('click', numberClicked);
     $(".operator").on('click', operatorClicked);
     $('.decimal').click(handleDecimals);
@@ -90,6 +91,13 @@ function equalSignClick() {
     console.log('equal sign clicked');
     orderOfOperations(inputArray);
     displayValues();
+}
+
+function validateKeypress(event) {
+    console.log('keypress test');
+    if(event.keyCode === 13) {
+        $("#equalButton").click()
+    }
 }
 
 // --------------- CLEAR BUTTON OBJ --------------- //
