@@ -98,6 +98,8 @@ function orderOfOperations(values) {
 
 // --------------- EQUAL SIGN HANDLER --------------- //
 function equalSignClick() {
+    if(inputArray.indexOf("=") === -1) // if in
+        $("#display-area").text("Ready"); return;
     orderOfOperations(inputArray);
     displayValues();
     inputArray = [];
