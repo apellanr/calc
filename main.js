@@ -12,26 +12,33 @@ function applyClickHandlers() {
     $(".operator").on('click', operatorClicked);
     $('.decimal').click(handleDecimals);
     $('.equals').click(equalSignClick);
-    $('.backspace').click(clearObj.clearLastEntry);
-    $('.clearAll').click(clearObj.deleteAll);
+    $('.backspace').click(clearObj.clearLastEntry.bind(this));
+    $('.clearAll').click(clearObj.deleteAll.bind(this));
 }
 
 // --------------- HANDLE NUMBER CLICK --------------- //
 function numberClicked() {
     var numberValue = $(this).text();
-    // inputArray.push(numberValue);
     if(!isNaN(inputArray[inputArray.length - 1])) {
         inputArray[inputArray.length - 1] += numberValue;
     } else {
         inputArray.push(numberValue);
     }
     console.log(inputArray);
-    displayValues();
+    displayValues(inputArray);
 }
 
 // --------------- HANDLE OPERATOR CLICK --------------- //
 function operatorClicked() {
-    inputArray.push($(this).text());
+    console.log("operator has been clicked");
+    decimal = false; //back to false if operator added. resolves multiple decimals
+    var operator = $(this).text();
+    var lastIndexVal = inputArray.length - 1;
+    if(!isNaN(inputArray[lastIndexVal])) { // !isNaN have different behavior for non-numeric arguments
+        inputArray.push(operator); // when arg is not of type Number, it is attempted to be coerced into a number
+    } else {
+        inputArray[lastIndexVal] = operator;
+    }
     console.log(inputArray);
     displayValues();
 }
@@ -39,44 +46,44 @@ function operatorClicked() {
 // --------------- DECIMAL HANDLER --------------- //
 function handleDecimals() {
     console.log('decimal pressed');
+    var decimalValue = $(this).text();
+    if (decimal === false) {
+        inputArray[inputArray.length -1] += decimalValue;
+        decimal = true;
+    }
+    displayValues();
 }
 
 // --------------- DISPLAY INPUT --------------- //
 function displayValues() {
     var values = inputArray.join('');
+    if(values === "Infinity") {
+        values = 'Error';
+    }
     $('#display-area').text(values);
 }
-
 // --------------- ORDER OF OPERATIONS [PEMDAS] --------------- //
 /*
  - order of associativity : multiply > divide > add > subtract
- - trying to stray away from using a switch statement. will try to use this function to perform solving calculations
  - notes: loop through array and check to see if operator is found
- - if found, target character to the left of the operator then target character to the right of the operator
- - keep that value and replace the operator position in array - return to baseline
  */
 function orderOfOperations(values) {
-    for(var i = 1; i < values.length; i+=2) {
-        if(values[i] === "*") {
-            var new_result = parseFloat(values[i-1]) * parseFloat(values[i + 1]);
-            values.splice(i-1,3,new_result);
+    for (var i = 1; i < values.length; i += 2) {
+        if (values[i] === "*") {
+            var new_result = (parseFloat(values[i - 1]) * parseFloat(values[i + 1])).toFixed(2);
+            values.splice(i - 1, 3, new_result);
             i -= 2;
         }
-        if(values[i] === "÷") {
-            if(parseFloat(values[i + 1]) !== 0) {
-                new_result = parseFloat(values[i - 1]) / parseFloat(values[i + 1]);
-                values.splice(i - 1, 3, new_result);
-                i -= 2;
-            }
-            else {
-                $("#display-area").text("Error");
-                return new_result;
-            }
+        if (values[i] === "÷") {
+            new_result = (parseFloat(values[i - 1]) / parseFloat(values[i + 1])).toFixed(2);
+            values.splice(i - 1, 3, new_result);
+            i -= 2;
         }
+
     }
     for(var i = 1; i < values.length; i+=2) {
         if (values[i] === '+') {
-            new_result = parseFloat(values[i-1]) + parseFloat(values[i + 1]);
+            new_result = (parseFloat(values[i-1]) + parseFloat(values[i + 1]));
             values.splice(i-1,3,new_result);
             i -= 2;
         }
@@ -86,16 +93,15 @@ function orderOfOperations(values) {
             i -= 2;
         }
     }
-    var toFixed = new_result.toFixed(2);
-    return toFixed;
+    return new_result;
 }
-
 
 // --------------- EQUAL SIGN HANDLER --------------- //
 function equalSignClick() {
-    console.log('equal sign clicked');
     orderOfOperations(inputArray);
     displayValues();
+    inputArray = [];
+    console.log(inputArray);
 }
 
 function validateKeypress(event) {
@@ -105,17 +111,16 @@ function validateKeypress(event) {
     }
 }
 
-// --------------- CLEAR BUTTON OBJ --------------- //
+// --------------- GLOBAL VARIABLES && CLEAR BUTTON OBJ --------------- //
 var clearObj = {
     clearLastEntry : function() {
-        console.log('backspace clicked. removing last input');
         if(inputArray[inputArray.length - 1] !== undefined) { // checks to see if there is a value in array
             inputArray.pop();
         }
         displayValues();
     },
     deleteAll : function() {
-        console.log('CE button pressed');
+        console.log('CE has been clicked');
         inputArray = [];
         decimal = false;
         displayValues();
