@@ -1,10 +1,8 @@
 $(document).ready(function(){
     applyClickHandlers();
 });
-
 var inputArray = [];
 var decimal = false;
-
 // --------------- CLICK HANDLER FUNCTION --------------- //
 function applyClickHandlers() {
     $('#equalButton').keypress(validateKeypress);
@@ -12,10 +10,9 @@ function applyClickHandlers() {
     $(".operator").on('click', operatorClicked);
     $('.decimal').click(handleDecimals);
     $('.equals').click(equalSignClick);
-    $('.backspace').click(clearObj.clearLastEntry.bind(this));
-    $('.clearAll').click(clearObj.deleteAll.bind(this));
+    $('.backspace').click(clearObj.clearLastEntry);
+    $('.clearAll').click(clearObj.deleteAll);
 }
-
 // --------------- HANDLE NUMBER CLICK --------------- //
 function numberClicked() {
     var numberValue = $(this).text();
@@ -27,7 +24,6 @@ function numberClicked() {
     console.log(inputArray);
     displayValues(inputArray);
 }
-
 // --------------- HANDLE OPERATOR CLICK --------------- //
 function operatorClicked() {
     console.log("operator has been clicked");
@@ -42,7 +38,6 @@ function operatorClicked() {
     console.log(inputArray);
     displayValues();
 }
-
 // --------------- DECIMAL HANDLER --------------- //
 function handleDecimals() {
     console.log('decimal pressed');
@@ -53,7 +48,6 @@ function handleDecimals() {
     }
     displayValues();
 }
-
 // --------------- DISPLAY INPUT --------------- //
 function displayValues() {
     var values = inputArray.join('');
@@ -79,7 +73,6 @@ function orderOfOperations(values) {
             values.splice(i - 1, 3, new_result);
             i -= 2;
         }
-
     }
     for(var i = 1; i < values.length; i+=2) {
         if (values[i] === '+') {
@@ -95,11 +88,16 @@ function orderOfOperations(values) {
     }
     return new_result;
 }
-
 // --------------- EQUAL SIGN HANDLER --------------- //
 function equalSignClick() {
-    if(inputArray.indexOf("=") === -1) // if in
+    if(inputArray.length === 0) {
         $("#display-area").text("Ready"); return;
+    } else if(inputArray.length === 2) {
+
+    }
+    // if(inputArray.length === 3 && !isNaN(inputArray[inputArray.length - 1])) {
+    //
+    // }
     orderOfOperations(inputArray);
     displayValues();
     inputArray = [];
@@ -112,7 +110,6 @@ function validateKeypress(event) {
         $("#equalButton").click()
     }
 }
-
 // --------------- GLOBAL VARIABLES && CLEAR BUTTON OBJ --------------- //
 var clearObj = {
     clearLastEntry : function() {
