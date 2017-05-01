@@ -107,7 +107,7 @@ function equalSignClick() {
     console.log(inputArray);
 }
 
-// --------------- GLOBAL VARIABLES && CLEAR BUTTON OBJ --------------- //
+// --------------- CLEAR BUTTON OBJ --------------- //
 var clearObj = {
     clearLastEntry : function() {
          // checks to see if there is a value in array
