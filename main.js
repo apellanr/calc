@@ -2,9 +2,9 @@ $(document).ready(function(){
     applyClickHandlers();
 });
 var inputArray = [];
+var historyArr = [];
 var decimal = false;
 var new_result;
-var history = [];
 
 // --------------- CLICK HANDLER FUNCTION --------------- //
 function applyClickHandlers() {
@@ -35,6 +35,7 @@ function operatorClicked() {
     decimal = false; //back to false if operator added. resolves multiple decimals
     var operator = $(this).text();
     var lastIndexVal = inputArray.length - 1;
+    if(inputArray.length === 0) return; // prevents adding op to beginning of inputArr
     if(!isNaN(inputArray[lastIndexVal])) { // !isNaN have different behavior for non-numeric arguments
         inputArray.push(operator); // when arg is not of type Number, it is attempted to be coerced into a number
     } else {
@@ -48,7 +49,7 @@ function handleDecimals() {
     console.log('decimal pressed');
     var decimalValue = $(this).text();
     if (decimal === false) {
-        inputArray[inputArray.length -1] += decimalValue;
+        inputArray[inputArray.length - 1] += decimalValue;
         decimal = true;
     }
     displayValues();
@@ -96,13 +97,15 @@ function orderOfOperations(values) {
 
 // --------------- EQUAL SIGN HANDLER --------------- //
 function equalSignClick() {
-    if(inputArray.length === 0) {
+    var len = inputArray.length;
+    if(len === 0) {
         $("#display-area").text("Ready");
         return;
     }
-    if(inputArray.length === 1) return inputArray;
-    if(inputArray.length === 2) {
-        inputArray[2] = inputArray[0];
+    if(len === 1) return inputArray; // missing operation
+    if(len === 2) inputArray[2] = inputArray[0]; // partial operand
+    if(len === 3) {
+        historyArr.push(inputArray);
     }
     orderOfOperations(inputArray);
     displayValues();
