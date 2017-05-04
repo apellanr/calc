@@ -67,33 +67,53 @@ function displayValues() {
  - order of associativity : multiply > divide > add > subtract
  - notes: loop through array and check to see if operator is found
  */
-function orderOfOperations(values) {
-    for (var i = 1; i < values.length; i += 2) {
-        if (values[i] === "*") {
-            new_result = (parseFloat(values[i - 1]) * parseFloat(values[i + 1])).toFixed(2);
-            values.splice(i - 1, 3, new_result);
-            i -= 2;
-        }
-        if (values[i] === "÷") {
-            new_result = (parseFloat(values[i - 1]) / parseFloat(values[i + 1])).toFixed(2);
-            values.splice(i - 1, 3, new_result);
-            i -= 2;
-        }
-    }
-    for(var i = 1; i < values.length; i+=2) {
-        if (values[i] === '+') {
-            new_result = (parseFloat(values[i-1]) + parseFloat(values[i + 1]));
-            values.splice(i-1,3,new_result);
-            i -= 2;
-        }
-        if(values[i] === "-") {
-            new_result = parseFloat(values[i-1]) - parseFloat(values[i+1]);
-            values.splice(i-1,3,new_result);
-            i -= 2;
-        }
-    }
-    return new_result;
+// ============ LFZ START ============
+function orderOfOperations(values) { // values represents the inputArray passed in on line 112
+    // for loop that iterates through parameter length. start at index 1 increment every 2 indexes
+
+        // if statement - values at a specific index equals the multiply operator, then do next line
+
+            // global var "new_result" = value of character to the left of the operator times value of right of the operator. Fixed to two positions
+
+            // splice values (position to the left of the operator found, removes 3, returns new_result);
+
+            // decrement i by 2
+
+
+        // if values at index is equal to division ("÷"), do work
+
+            // global var "new_result" = value of character to the left of the operator divided by value of right of the operator. Fixed to two positions
+
+            // splice values (position to the left of the operator found, removes 3, returns new_result);
+
+            // decrement i by 2
+
+
+
+    // for loop that iterates through parameter length. start at index 1 increment every 2 indexes for(var i = 1; i < values.length; i+=2) {
+
+        // if values at index is equal to addition ("+"), do work
+
+            // global var "new_result" = value of character to the left of the operator added to the value of right of the operator. Fixed to two positions
+
+            // splice values (position to the left of the operator found, removes 3, returns new_result);
+
+            // decrement i by 2
+
+        // if values at index is equal to subtraction ("-"), do work
+
+            // global var "new_result" = value of character to the left of the operator subtracted by value of right of the operator. Fixed to two positions
+
+            // splice values (position to the left of the operator found, removes 3, returns new_result);
+
+            // decrement i by 2
+
+
+
+    // return new_result
+
 }
+// ============ LFZ END ============
 
 // --------------- EQUAL SIGN HANDLER --------------- //
 function equalSignClick() {
