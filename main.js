@@ -3,9 +3,9 @@ $(document).ready(function(){
 });
 var inputArray = [];
 var decimal = false;
-var operatorArr = ['*', '÷', '+', '-'];
 var equalCount = 0;
 var new_result;
+var calcComplete = false;
 var oldData = {
     oldOp : null,
     oldNum : null
@@ -23,9 +23,9 @@ function applyClickHandlers() {
 // --------------- HANDLE NUMBER CLICK --------------- //
 function numberClicked() {
     var numberValue = $(this).text();
-    if(equalCount >= 1){ // Jinwoo's genius idea
-        inputArray=[];
-    }
+    // if(equalCount >= 1){ // Jinwoo's genius idea
+    //     inputArray[0] = numberValue;
+    // }
     if(inputArray[0] === "0" && inputArray.length === 1) { // prevention of leading zeros
         return;
     } else if(!isNaN(inputArray[inputArray.length - 1])) {
@@ -33,7 +33,7 @@ function numberClicked() {
     } else {
         inputArray.push(numberValue);
     }
-    equalCount = 0;
+    // equalCount = 0;
     console.log(inputArray);
     displayValues(inputArray);
 }
@@ -44,6 +44,10 @@ function operatorClicked() {
     var operator = $(this).text();
     var lastIndexVal = inputArray.length - 1;
     if(inputArray.length === 0) return; // prevents adding op to beginning of inputArr
+    if(calcComplete == true) {
+        oldData.oldOp = null;
+        oldData.oldNum = null;
+    }
     if(!isNaN(inputArray[lastIndexVal])) { // !isNaN have different behavior for non-numeric arguments
         inputArray.push(operator); // when arg is not of type Number, it is attempted to be coerced into a number
     } else {
@@ -105,14 +109,19 @@ function orderOfOperations(values) {
             i -= 2;
         }
     }
+    calcComplete = true;
     inputArray[0] = new_result;
     displayValues(inputArray);
+}
+
+function partialOperand() {
+
 }
 
 // --------------- EQUAL SIGN HANDLER --------------- //
 function equalSignClick() {
     console.log('equal sign clicked');
-    if(typeof inputArray[0] == "number") {
+    if(typeof inputArray[0] == "number" && calcComplete === false) {
         inputArray.push(oldData.oldOp, oldData.oldNum);
         orderOfOperations(inputArray);
     }
@@ -123,10 +132,9 @@ function equalSignClick() {
     }
     if(len === 1) return inputArray; // missing operation
     if(len === 2) inputArray[2] = inputArray[0]; // partial operand
-    if(len > 3) {
-        inputArray.push(new_result);
-    }
-    equalCount++;
+    // if(len > 3) {
+    //     inputArray.push(new_result);
+    // }
     orderOfOperations(inputArray);
     displayValues(inputArray);
     // inputArray = [];
