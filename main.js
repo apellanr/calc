@@ -2,9 +2,14 @@ $(document).ready(function(){
     applyClickHandlers();
 });
 var inputArray = [];
-var historyArr = [];
 var decimal = false;
+var operatorArr = ['*', '÷', '+', '-'];
+var equalCount = 0;
 var new_result;
+var oldData = {
+    oldOp : null,
+    oldNum : null
+};
 
 // --------------- CLICK HANDLER FUNCTION --------------- //
 function applyClickHandlers() {
@@ -18,14 +23,17 @@ function applyClickHandlers() {
 // --------------- HANDLE NUMBER CLICK --------------- //
 function numberClicked() {
     var numberValue = $(this).text();
+    if(equalCount >= 1){ // Jinwoo's genius idea
+        inputArray=[];
+    }
     if(inputArray[0] === "0" && inputArray.length === 1) { // prevention of leading zeros
         return;
-    }
-    if(!isNaN(inputArray[inputArray.length - 1])) {
+    } else if(!isNaN(inputArray[inputArray.length - 1])) {
         inputArray[inputArray.length - 1] += numberValue;
     } else {
         inputArray.push(numberValue);
     }
+    equalCount = 0;
     console.log(inputArray);
     displayValues(inputArray);
 }
@@ -68,35 +76,46 @@ function displayValues() {
  - notes: loop through array and check to see if operator is found
  */
 function orderOfOperations(values) {
+    oldData.oldNum = values[values.length-1];
     for (var i = 1; i < values.length; i += 2) {
         if (values[i] === "*") {
-            new_result = (parseFloat(values[i - 1]) * parseFloat(values[i + 1])).toFixed(2);
-            values.splice(i - 1, 3, new_result);
+            new_result = (parseFloat(values[i - 1]) * parseFloat(values[i + 1]));
+            oldData.oldOp = values[i];
+            values.splice(i - 1, 3, (new_result));
             i -= 2;
         }
         if (values[i] === "÷") {
-            new_result = (parseFloat(values[i - 1]) / parseFloat(values[i + 1])).toFixed(2);
-            values.splice(i - 1, 3, new_result);
+            new_result = (parseFloat(values[i - 1]) / parseFloat(values[i + 1]));
+            oldData.oldOp = values[i];
+            values.splice(i - 1, 3, (new_result));
             i -= 2;
         }
     }
     for(var i = 1; i < values.length; i+=2) {
         if (values[i] === '+') {
             new_result = (parseFloat(values[i-1]) + parseFloat(values[i + 1]));
+            oldData.oldOp = values[i];
             values.splice(i-1,3,new_result);
             i -= 2;
         }
         if(values[i] === "-") {
             new_result = parseFloat(values[i-1]) - parseFloat(values[i+1]);
+            oldData.oldOp = values[i];
             values.splice(i-1,3,new_result);
             i -= 2;
         }
     }
-    return new_result;
+    inputArray[0] = new_result;
+    displayValues(inputArray);
 }
 
 // --------------- EQUAL SIGN HANDLER --------------- //
 function equalSignClick() {
+    console.log('equal sign clicked');
+    if(typeof inputArray[0] == "number") {
+        inputArray.push(oldData.oldOp, oldData.oldNum);
+        orderOfOperations(inputArray);
+    }
     var len = inputArray.length;
     if(len === 0) {
         $("#display-area").text("Ready");
@@ -104,12 +123,13 @@ function equalSignClick() {
     }
     if(len === 1) return inputArray; // missing operation
     if(len === 2) inputArray[2] = inputArray[0]; // partial operand
-    if(len === 3) {
-        historyArr.push(inputArray);
+    if(len > 3) {
+        inputArray.push(new_result);
     }
+    equalCount++;
     orderOfOperations(inputArray);
-    displayValues();
-    inputArray = [];
+    displayValues(inputArray);
+    // inputArray = [];
     console.log(inputArray);
 }
 
@@ -118,11 +138,16 @@ var clearObj = {
     clearLastEntry : function() {
          // checks to see if there is a value in array
         inputArray.pop();
+        oldData.oldOp = null;
+        oldData.oldNum = null;
+        decimal = false;
         displayValues();
     },
     deleteAll : function() {
         console.log('CE has been clicked');
         inputArray = [];
+        oldData.oldOp = null;
+        oldData.oldNum = null;
         decimal = false;
         displayValues();
     }
