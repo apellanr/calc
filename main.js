@@ -23,9 +23,10 @@ function applyClickHandlers() {
 // --------------- HANDLE NUMBER CLICK --------------- //
 function numberClicked() {
     var numberValue = $(this).text();
-    // if(equalCount >= 1){ // Jinwoo's genius idea
-    //     inputArray[0] = numberValue;
-    // }
+    // resolves repeat problem since when a new number is clicked
+    if(typeof inputArray[0] === "number" && inputArray.length === 1) { //
+        inputArray = [];
+    }
     if(inputArray[0] === "0" && inputArray.length === 1) { // prevention of leading zeros
         return;
     } else if(!isNaN(inputArray[inputArray.length - 1])) {
@@ -44,11 +45,10 @@ function operatorClicked() {
     var operator = $(this).text();
     var lastIndexVal = inputArray.length - 1;
     if(inputArray.length === 0) return; // prevents adding op to beginning of inputArr
-    if(calcComplete == true) {
-        oldData.oldOp = null;
-        oldData.oldNum = null;
-    }
     if(!isNaN(inputArray[lastIndexVal])) { // !isNaN have different behavior for non-numeric arguments
+        if (inputArray.length === 3){
+            orderOfOperations(inputArray);
+        }
         inputArray.push(operator); // when arg is not of type Number, it is attempted to be coerced into a number
     } else {
         inputArray[lastIndexVal] = operator;
@@ -109,20 +109,23 @@ function orderOfOperations(values) {
             i -= 2;
         }
     }
-    calcComplete = true;
     inputArray[0] = new_result;
     displayValues(inputArray);
-}
-
-function partialOperand() {
-
 }
 
 // --------------- EQUAL SIGN HANDLER --------------- //
 function equalSignClick() {
     console.log('equal sign clicked');
-    if(typeof inputArray[0] == "number" && calcComplete === false) {
-        inputArray.push(oldData.oldOp, oldData.oldNum);
+    if (inputArray[1]){ // if inputArray has a value in index 1
+        inputArray[2] = inputArray[0]; // assign value of index 0 to index 2 ; for partial operand
+        orderOfOperations(inputArray);
+        displayValues(inputArray);
+        console.log(inputArray);
+        return;
+    }
+    // will not push obj data if inputArray[0] is a string
+    if(typeof inputArray[0] == "number" && inputArray.length < 3) { // only push if length is less than three
+        inputArray.push(oldData.oldOp, oldData.oldNum); // can't just check for type of
         orderOfOperations(inputArray);
     }
     var len = inputArray.length;
@@ -131,13 +134,12 @@ function equalSignClick() {
         return;
     }
     if(len === 1) return inputArray; // missing operation
-    if(len === 2) inputArray[2] = inputArray[0]; // partial operand
+    // if(len === 2) inputArray[2] = inputArray[0]; // partial operand
     // if(len > 3) {
     //     inputArray.push(new_result);
     // }
     orderOfOperations(inputArray);
     displayValues(inputArray);
-    // inputArray = [];
     console.log(inputArray);
 }
 
