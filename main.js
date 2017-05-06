@@ -3,14 +3,11 @@ $(document).ready(function(){
 });
 var inputArray = [];
 var decimal = false;
-var equalCount = 0;
 var new_result;
-var calcComplete = false;
 var oldData = {
     oldOp : null,
     oldNum : null
 };
-
 // --------------- CLICK HANDLER FUNCTION --------------- //
 function applyClickHandlers() {
     $(".number").on('click', numberClicked);
@@ -23,8 +20,7 @@ function applyClickHandlers() {
 // --------------- HANDLE NUMBER CLICK --------------- //
 function numberClicked() {
     var numberValue = $(this).text();
-    // resolves repeat problem since when a new number is clicked
-    if(typeof inputArray[0] === "number" && inputArray.length === 1) { //
+    if(typeof inputArray[0] === "number" && inputArray.length === 1) { // resolves repeat problem since when a new number is clicked
         inputArray = [];
     }
     if(inputArray[0] === "0" && inputArray.length === 1) { // prevention of leading zeros
@@ -34,13 +30,11 @@ function numberClicked() {
     } else {
         inputArray.push(numberValue);
     }
-    // equalCount = 0;
     console.log(inputArray);
     displayValues(inputArray);
 }
 // --------------- HANDLE OPERATOR CLICK --------------- //
 function operatorClicked() {
-    console.log("operator has been clicked");
     decimal = false; //back to false if operator added. resolves multiple decimals
     var operator = $(this).text();
     var lastIndexVal = inputArray.length - 1;
@@ -58,7 +52,6 @@ function operatorClicked() {
 }
 // --------------- DECIMAL HANDLER --------------- //
 function handleDecimals() {
-    console.log('decimal pressed');
     var decimalValue = $(this).text();
     if (decimal === false) {
         inputArray[inputArray.length - 1] += decimalValue;
@@ -75,10 +68,6 @@ function displayValues() {
     $('#display-area').text(values);
 }
 // --------------- ORDER OF OPERATIONS [PEMDAS] --------------- //
-/*
- - order of associativity : multiply > divide > add > subtract
- - notes: loop through array and check to see if operator is found
- */
 function orderOfOperations(values) {
     oldData.oldNum = values[values.length-1];
     for (var i = 1; i < values.length; i += 2) {
@@ -112,7 +101,6 @@ function orderOfOperations(values) {
     inputArray[0] = new_result;
     displayValues(inputArray);
 }
-
 // --------------- EQUAL SIGN HANDLER --------------- //
 function equalSignClick() {
     console.log('equal sign clicked');
@@ -134,19 +122,12 @@ function equalSignClick() {
         return;
     }
     if(len === 1) return inputArray; // missing operation
-    // if(len === 2) inputArray[2] = inputArray[0]; // partial operand
-    // if(len > 3) {
-    //     inputArray.push(new_result);
-    // }
     orderOfOperations(inputArray);
     displayValues(inputArray);
-    console.log(inputArray);
 }
-
-// --------------- GLOBAL VARIABLES && CLEAR BUTTON OBJ --------------- //
+// --------------- CLEAR BUTTON OBJ --------------- //
 var clearObj = {
     clearLastEntry : function() {
-         // checks to see if there is a value in array
         inputArray.pop();
         oldData.oldOp = null;
         oldData.oldNum = null;
