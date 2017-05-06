@@ -6,7 +6,9 @@ var decimal = false;
 var new_result;
 var oldData = {
     oldOp : null,
-    oldNum : null
+    oldNum : null,
+    lastOp : null,
+    result : null
 };
 // --------------- CLICK HANDLER FUNCTION --------------- //
 function applyClickHandlers() {
@@ -40,9 +42,6 @@ function operatorClicked() {
     var lastIndexVal = inputArray.length - 1;
     if(inputArray.length === 0) return; // prevents adding op to beginning of inputArr
     if(!isNaN(inputArray[lastIndexVal])) { // !isNaN have different behavior for non-numeric arguments
-        // if (inputArray.length === 3){
-        //     orderOfOperations(inputArray);
-        // }
         inputArray.push(operator); // when arg is not of type Number, it is attempted to be coerced into a number
     } else {
         inputArray[lastIndexVal] = operator;
@@ -50,6 +49,8 @@ function operatorClicked() {
     console.log(inputArray);
     displayValues();
 }
+
+isNaN()
 // --------------- DECIMAL HANDLER --------------- //
 function handleDecimals() {
     var decimalValue = $(this).text();
@@ -98,31 +99,32 @@ function orderOfOperations(values) {
             i -= 2;
         }
     }
+    oldData.result = new_result;
     inputArray[0] = new_result;
     displayValues(inputArray);
     return new_result;
 }
 // --------------- EQUAL SIGN HANDLER --------------- //
 function equalSignClick() {
-    // if (inputArray[1]){ // operation rollover & partial operand; if inputArray has a value in index 1
-    //     inputArray[2] = inputArray[0]; // assign value of index 0 to index 2
-    //     orderOfOperations(inputArray);
-    //     displayValues(inputArray);
-    //     console.log(inputArray);
-    //     return;
-    // }
-    // will not push obj data if inputArray[0] is a string
-    if(typeof inputArray[0] == "number" && inputArray.length < 3) { // only push if length is less than three
-        inputArray.push(oldData.oldOp, oldData.oldNum); // can't just check for type of
-        orderOfOperations(inputArray);
-    }
     var len = inputArray.length;
-    if(len === 0) {
+    if(len === 0) { // missing operands
         $("#display-area").text("Ready");
         return;
     }
-    if(len === 1) return inputArray; // missing operation
-    if(len === 2) inputArray[2] = inputArray[0];
+    if(typeof inputArray[0] == "number" && inputArray.length < 3 ) {
+        inputArray.push(oldData.oldOp, oldData.oldNum);
+    } else if(len === 1) { // missing operation
+        return inputArray;
+    }
+    if(typeof inputArray[0] === "string" && len === 2) {
+        inputArray[2] = inputArray[0];
+    }
+    if(typeof inputArray[0] == "number" && inputArray.length <= 2) {
+        inputArray.push(oldData.result);
+    } else if(len > 3 && isNaN(inputArray[len - 1])) {
+        var lastIndex = inputArray.pop();
+        oldData.lastOp = lastIndex;
+    }
     orderOfOperations(inputArray);
     displayValues(inputArray);
 }
