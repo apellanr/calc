@@ -2,6 +2,7 @@ $(document).ready(function(){
     applyClickHandlers();
 });
 var inputArray = [];
+var tempArr = [];
 var decimal = false;
 var new_result;
 var oldData = {
@@ -22,12 +23,13 @@ function applyClickHandlers() {
 // --------------- HANDLE NUMBER CLICK --------------- //
 function numberClicked() {
     var numberValue = $(this).text();
+    if(inputArray[0] === "0" && inputArray.length === 1) { // prevention of leading zeros
+        return;
+    }
     if(typeof inputArray[0] === "number" && inputArray.length === 1) { // resolves repeat problem since when a new number is clicked
         inputArray = [];
     }
-    if(inputArray[0] === "0" && inputArray.length === 1) { // prevention of leading zeros
-        return;
-    } else if(!isNaN(inputArray[inputArray.length - 1])) {
+    if(!isNaN(inputArray[inputArray.length - 1])) {
         inputArray[inputArray.length - 1] += numberValue;
     } else {
         inputArray.push(numberValue);
@@ -50,7 +52,6 @@ function operatorClicked() {
     displayValues();
 }
 
-isNaN()
 // --------------- DECIMAL HANDLER --------------- //
 function handleDecimals() {
     var decimalValue = $(this).text();
@@ -67,6 +68,7 @@ function displayValues() {
         values = 'Error';
     }
     $('#display-area').text(values);
+    return;
 }
 // --------------- ORDER OF OPERATIONS [PEMDAS] --------------- //
 function orderOfOperations(values) {
@@ -99,19 +101,26 @@ function orderOfOperations(values) {
             i -= 2;
         }
     }
-    oldData.result = new_result;
-    inputArray[0] = new_result;
-    displayValues(inputArray);
+    oldData.result = new_result.toString();
+    tempArr.push(oldData.result);
+    displayValues(tempArr);
     return new_result;
 }
 // --------------- EQUAL SIGN HANDLER --------------- //
 function equalSignClick() {
+    decimal = false;
     var len = inputArray.length;
     if(len === 0) { // missing operands
         $("#display-area").text("Ready");
         return;
     }
-    if(typeof inputArray[0] == "number" && inputArray.length < 3 ) {
+    // was using this for operation rollover but code seems to work w/o this snippet
+    // if(tempArr.length == 2 && tempArr[0] === "string") {
+    //     tempArr.push(oldData.oldOp, oldData.result);
+    //     orderOfOperations(tempArr);
+    //     return;
+    // }
+    if(typeof inputArray[0] == "number" && inputArray.length === 1 ) {
         inputArray.push(oldData.oldOp, oldData.oldNum);
     } else if(len === 1) { // missing operation
         return inputArray;
@@ -121,7 +130,8 @@ function equalSignClick() {
     }
     if(typeof inputArray[0] == "number" && inputArray.length <= 2) {
         inputArray.push(oldData.result);
-    } else if(len > 3 && isNaN(inputArray[len - 1])) {
+    }
+    if(len > 3 && isNaN(inputArray[len - 1])) {
         var lastIndex = inputArray.pop();
         oldData.lastOp = lastIndex;
     }
