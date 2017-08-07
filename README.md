@@ -3,7 +3,7 @@
 ## About
 Calculator project that performs basic computations that outputs to display screen
 
-##Technologies
+## Technologies
 - HTML
 - CSS
 - Bootstrap
